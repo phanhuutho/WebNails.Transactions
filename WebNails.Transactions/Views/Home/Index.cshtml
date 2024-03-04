@@ -110,7 +110,7 @@
         function GetTransactions(page) {
             $.ajax({
                 type: "GET",
-                url: "/_transactions.html",
+                url: "/_index.html",
                 data: { search: $("#Search").val(), DateFrom: $("#DateFrom").val(), DateTo: $("#DateTo").val(), page: page },
                 success: function (html) {
                     $("#gird-view").html("").append(html);

@@ -51,7 +51,7 @@ namespace WebNails.Transactions.Controllers
                 }
                 else
                 {
-                    return Json(new { ReturnUrl = "/transactions.html", IsLogin = true, Message = "" }, JsonRequestBehavior.AllowGet);
+                    return Json(new { ReturnUrl = "/index.html", IsLogin = true, Message = "" }, JsonRequestBehavior.AllowGet);
                 }
             }
             else

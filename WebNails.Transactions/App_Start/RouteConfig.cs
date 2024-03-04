@@ -15,9 +15,16 @@ namespace WebNails.Transactions
 
             //routes.MapRoute(
             //    name: "Default",
-            //    url: "{controller}/{action}/{id}",
+            //    url: "transactions.html",
             //    defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             //);
+
+            routes.MapRoute("", "",
+               new
+               {
+                   controller = "Home",
+                   action = "Index"
+               });
 
             routes.MapRoute(
                 "Login", "login.html",
@@ -36,7 +43,7 @@ namespace WebNails.Transactions
                 });
 
             routes.MapRoute(
-                "Transactions", "transactions.html",
+                "Home", "index.html",
                 new
                 {
                     controller = "Home",
@@ -44,7 +51,7 @@ namespace WebNails.Transactions
                 });
 
             routes.MapRoute(
-                "_Transactions", "_transactions.html",
+                "_Index", "_index.html",
                 new
                 {
                     controller = "Home",
