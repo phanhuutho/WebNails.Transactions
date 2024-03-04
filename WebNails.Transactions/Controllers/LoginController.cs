@@ -13,8 +13,9 @@ using WebNails.Transactions.Utilities;
 
 namespace WebNails.Transactions.Controllers
 {
-    public class LoginControllerController : Controller
+    public class LoginController : Controller
     {
+
         // GET: administrator/Login
         [AllowAnonymous]
         public ActionResult Index()
@@ -66,7 +67,7 @@ namespace WebNails.Transactions.Controllers
             var cookie = Request.Cookies[FormsAuthentication.FormsCookieName];
             if (cookie != null)
             {
-                cookie.Expires = System.DateTime.Now.AddDays(-1);
+                cookie.Expires = DateTime.Now.AddDays(-1);
                 Response.Cookies.Add(cookie);
             }
             return RedirectToAction("Index", "Login");
@@ -76,9 +77,7 @@ namespace WebNails.Transactions.Controllers
         {
             using (var sqlConnect = new SqlConnection(ConfigurationManager.ConnectionStrings["ContextDatabase"].ConnectionString))
             {
-                var Domain = Request.Url.Host;
-
-                var checklogin = sqlConnect.Query("spUserSite_GetByUsernameAndPassword", new { strUsername = model.Username, strPassword = model.Password, strDomain = Domain }, commandType: CommandType.StoredProcedure).Count() == 1;
+                var checklogin = sqlConnect.Query("spNailAccount_GetByUsernameAndPassword", new { strUsername = model.Username, strPassword = model.Password }, commandType: CommandType.StoredProcedure).Count() == 1;
 
                 return checklogin;
             }
