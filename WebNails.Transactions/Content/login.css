@@ -1,0 +1,30 @@
+﻿body {
+    height: 900px;
+    display: flex;
+    align-items: center;
+}
+
+.container {
+    width: 100%;
+}
+
+input[type="radio"], input[type="checkbox"] {
+    margin: 0px -2px 0px -2px;
+}
+
+label {
+    margin-bottom: 0;
+    font-weight: normal;
+}
+
+.text-left {
+    text-align: left !important;
+}
+
+.input-group-addon input[type="checkbox"] {
+    margin-top: 3px;
+}
+
+.input-group-addon:first-child {
+    min-width: 40px;
+}
