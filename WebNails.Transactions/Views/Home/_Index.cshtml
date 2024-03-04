@@ -1,0 +1,67 @@
+﻿@using WebNails.Transactions.Models
+@model IEnumerable<WebNails.Transactions.Models.InfoPaypal>
+
+@{
+    var indexCurrent = WebNails.Transactions.Utilities.PagingHelper.CurrentIndex(WebNails.Transactions.Utilities.PagingHelper.CountSort, WebNails.Transactions.Utilities.PagingHelper.PageIndex);
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="table-responsive table-primary">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Date</th>
+                        <th>Transaction</th>
+                        <th>Buyer</th>
+                        <th>Receiver</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Completed</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@indexCurrent</td>
+                            <td>@(string.Format("{0:MM/dd/yyyy}", item.DateTimeCreate))</td>
+                            <td>@(item.Transactions)</td>
+                            <td>@(item.NameBuyer) - @(item.Email)</td>
+                            <td>@(item.NameReceiver) - @(item.Stock)</td>
+                            <td>@(string.Format("${0}",item.Amount))</td>
+                            <td>
+                                @if (item.Status == PaymentStatus.Success)
+                                {
+                                    <span class="label label-success">Success</span>
+                                }
+                                else if (item.Status == PaymentStatus.Pending)
+                                {
+                                    <span class="label label-danger">Pending</span>
+                                }
+                            </td>
+                            <td>
+                                @if (item.IsUsed)
+                                {
+                                    <i class="fa fa-check-square-o"></i>
+                                }
+                                else if (item.Status == PaymentStatus.Success)
+                                {
+                                    <i class="fa fa-square-o"></i>
+                                }
+                            </td>
+                        </tr>
+                        indexCurrent++;
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12 text-left">
+        @Html.Raw(WebNails.Transactions.Utilities.PagingHelper.Page(ViewBag.Count, 5, WebNails.Transactions.Utilities.PagingHelper.CountSort, "pagination"))
+    </div>
+</div>

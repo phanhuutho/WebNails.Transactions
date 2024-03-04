@@ -42,6 +42,14 @@ namespace WebNails.Transactions
                     controller = "Home",
                     action = "Index"
                 });
+
+            routes.MapRoute(
+                "_Transactions", "_transactions.html",
+                new
+                {
+                    controller = "Home",
+                    action = "_Index"
+                });
         }
     }
 }

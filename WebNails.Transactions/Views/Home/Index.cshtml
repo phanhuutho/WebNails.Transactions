@@ -1,31 +1,121 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Transactions System";
+    var page = 1;
+    var search = string.Empty;
+    if (Request["page"] != null)
+    {
+        page = int.Parse(Request["page"]);
+    }
+    if (Request["search"] != null)
+    {
+        search = Request["search"];
+    }
+    var DateNow = DateTime.Now;
+    var DayEndOfMonth = new DateTime(DateNow.Year, DateNow.Month, 1).AddMonths(1).AddDays(-1).Day;
+    var DateFrom_Default = string.Format("{0}-{1}-{2}", DateNow.Year, DateNow.Month < 10 ? "0" + DateNow.Month.ToString() : DateNow.Month.ToString(), "01");
+    var DateTo_Default = string.Format("{0}-{1}-{2}", DateNow.Year, DateNow.Month < 10 ? "0" + DateNow.Month.ToString() : DateNow.Month.ToString(), DayEndOfMonth < 10 ? "0" + DayEndOfMonth.ToString() : DayEndOfMonth.ToString());
+    if (Request["DateFrom"] != null)
+    {
+        DateFrom_Default = Request["DateFrom"];
+    }
+    if (Request["DateTo"] != null)
+    {
+        DateTo_Default = Request["DateTo"];
+    }
 }
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
+@section css{
+    <style type="text/css">
+        .bg-main {
+            background: #ffffff;
+        }
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+        #transactions-manage {
+            min-height: 600px;
+            background: #ffffff;
+        }
+
+        #label-table{
+            margin-top: 2px;
+        }
+
+        #form-search {
+            margin-bottom: 5px;
+        }
+    </style>
+}
+<main class="bg-main mt-4">
+    <div class="container-lg">
+        <div class="row">
+            <div class="col-md-12" id="transactions-manage">
+                <div class="row">
+                    <div class="col-md-12 my-3">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-3 col-sm-12">
+                                <h3 id="label-table">Transactions System</h3>
+                            </div>
+                            <div class="col-lg-8 col-md-9 col-sm-12">
+                                <div id="form-search" class="form-inline">
+                                    <div class="form-group">
+                                        <label for="DateFrom">Date From</label>
+                                        <input type="date" class="form-control" id="DateFrom" name="DateFrom" value="@DateFrom_Default" placeholder="Date From" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="DateTo">Date To</label>
+                                        <input type="date" class="form-control" id="DateTo" name="DateTo" value="@DateTo_Default" placeholder="Date To" />
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="button-search" id="Search" name="Search" value="@search">
+                                    </div>
+                                    <button class="btn btn-outline-secondary" type="button" id="button-search" onclick="GetTransactions(1)">Search</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 my-3" id="gird-view">
+
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+</main>
+@section modal{
+    <div class="modal fade" id="myModalMessage" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display:none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header modal-primary">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h5 class="modal-title" id="myModalLabel">Message</h5>
+                </div>
+                <div class="modal-body">
+                    <div id="alert-message"></div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
-</div>
+}
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            GetTransactions(parseInt('@(page)'));
+        });
+
+        function AlertMessage(strMessage) {
+            $('#alert-message').html("");
+            $('#alert-message').html(strMessage);
+            $('#myModalMessage').modal("show");
+        }
+
+        function GetTransactions(page) {
+            $.ajax({
+                type: "GET",
+                url: "/_transactions.html",
+                data: { search: $("#Search").val(), DateFrom: $("#DateFrom").val(), DateTo: $("#DateTo").val(), page: page },
+                success: function (html) {
+                    $("#gird-view").html("").append(html);
+                }
+            });
+        }
+    </script>
+}
