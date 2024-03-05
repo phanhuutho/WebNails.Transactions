@@ -13,6 +13,7 @@
                     <tr>
                         <th>STT</th>
                         <th>Date</th>
+                        <th>Domain</th>
                         <th>Transaction</th>
                         <th>Buyer</th>
                         <th>Receiver</th>
@@ -27,6 +28,7 @@
                         <tr>
                             <td>@indexCurrent</td>
                             <td>@(string.Format("{0:MM/dd/yyyy}", item.DateTimeCreate))</td>
+                            <td>@(item.Domain)</td>
                             <td>@(item.Transactions)</td>
                             <td>@(item.NameBuyer) - @(item.Email)</td>
                             <td>@(item.NameReceiver) - @(item.Stock)</td>

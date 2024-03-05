@@ -22,6 +22,8 @@ namespace WebNails.Transactions.Models
         public bool IsUsed { get; set; }
         public DateTime DateTimeCreate { get; set; }
         public DateTime DateTimeUpdateUsed { get; set; }
+
+        public string Domain { get; set; }
     }
 
     public enum PaymentStatus
