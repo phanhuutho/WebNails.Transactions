@@ -20,6 +20,9 @@
                         <th>Amount</th>
                         <th>Status</th>
                         <th>Completed</th>
+                        <th>Code Sale</th>
+                        <th>Cost</th>
+                        <th>Description</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -32,7 +35,7 @@
                             <td>@(item.Transactions)</td>
                             <td>@(item.NameBuyer) - @(item.Email)</td>
                             <td>@(item.NameReceiver) - @(item.Stock)</td>
-                            <td>@(string.Format("${0}",item.Amount))</td>
+                            <td>@(string.Format("${0:N2}",item.Amount))</td>
                             <td>
                                 @if (item.Status == PaymentStatus.Success)
                                 {
@@ -53,6 +56,9 @@
                                     <i class="fa fa-square-o"></i>
                                 }
                             </td>
+                            <td>@(item.CodeSaleOff)</td>
+                            <td>@(item.AmountReal > 0 ? string.Format("${0:N2}", item.AmountReal) : string.Format("${0:N2}", item.Amount))</td>
+                            <td>@(item.ValidCode > 0 || !string.IsNullOrEmpty(item.DescriptionValidCode) ? item.DescriptionValidCode : "")</td>
                         </tr>
                         indexCurrent++;
                     }
